@@ -11,6 +11,17 @@
 * Session 9: Logistic regression
 * Session 10: Other topics
 
+## Jupyter Notebooks
+
+To open the Jupyter Notebook, type on your terminal
+
+`jupyter notebook Lab 1 - Probability and Introduction to Jupyter Notebooks.ipynb`
+
+If you want to see the notebook as a slide show use the following instruction in your terminal
+
+`jupyter nbconvert Lecture 1-COM4509-6509.ipynb --to slides --post serve`
+
+
 ## References
 
 Simon Rogers and Mark Girolami, A First Course in Machine Learning, Chapman and Hall/CRC Press, 2nd Edition, 2016.
