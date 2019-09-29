@@ -17,7 +17,7 @@ Details about the module delivery plan can be found in this [file](ModuleDeliver
 
 ## Jupyter Notebooks
 
-To open the Jupyter Notebook, type on your terminal
+To open a Jupyter Notebook, type on your terminal
 
 `jupyter notebook Lab 1 - Probability and Introduction to Jupyter Notebooks.ipynb`
 
