@@ -11,6 +11,10 @@
 * Session 9: Logistic regression
 * Session 10: Other topics
 
+## Module delivery plan
+
+Details about the module delivery plan can be found in this [file](ModuleDeliveryPlan.pdf).
+
 ## Jupyter Notebooks
 
 To open the Jupyter Notebook, type on your terminal
