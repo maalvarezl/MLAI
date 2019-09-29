@@ -17,7 +17,7 @@ To open the Jupyter Notebook, type on your terminal
 
 `jupyter notebook Lab 1 - Probability and Introduction to Jupyter Notebooks.ipynb`
 
-If you want to see the notebook as a slide show use the following instruction in your terminal
+If you want to see the notebook as a slide show use the following instruction on your terminal
 
 `jupyter nbconvert Lecture 1-COM4509-6509.ipynb --to slides --post serve`
 
