@@ -50,3 +50,31 @@ def regression_contour(f, ax, m_vals, c_vals, E_grid):
 
 f, ax = plt.subplot(figsize=(5, 5))
 regression_contour(f, ax, m_vals, c_vals, E_grid)
+
+# Steepest Descent
+# Minimize the sum of squares error function.
+# One way of doing that is gradient descent.
+# Initialize with a guess for  𝑚  and  𝑐
+# Update that guess by subtracting a portion of the gradient from the guess.
+# Like walking down a hill in the steepest direction of the hill to get to the bottom.
+
+# we start from a guess for m and c
+m_star = 0.0
+c_star = -5.0
+
+c_grad = -2 * (y - m_star * x - c_star).sum()
+print("Gradient with respect to c is ", c_grad)
+
+# Update Equations
+# Now we have gradients with respect to  𝑚  and  𝑐 .
+# We can update our inital guesses for  𝑚  and  𝑐  using the gradient.
+# We don't want to just subtract the gradient from  𝑚  and  𝑐 ,
+# We need to take a small step in the gradient direction.
+# Otherwise we might overshoot the minimum.
+# We want to follow the gradient to get to the minimum, the gradient changes all the time.
+
+
+f, ax = plt.subplot(figsize=(7, 7))
+regression_contour(f, ax, m_vals, c_vals, E_grid)
+ax.plot(m_star, c_star, 'g*', markersize=15)
+ax.arrow(m_star, c_star, -m_grid * .05, -c_star * 0.05,head_width = 0.15)
