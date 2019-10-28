@@ -1,34 +1,25 @@
-import os
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 import IPython
+import os
 from mpl_toolkits.mplot3d import Axes3D
-
 
 import GPy
 
-try:
-    import daft
-except ImportError:
-    pass
+#import daft
 
 import mlai
-import gp_tutorial
 
+#from IPython.display import display, clear_output, HTML
 
 tau = 2*np.pi
 
-three_figsize = (10, 3)
 two_figsize = (10, 5)
 one_figsize = (5, 5)
 big_figsize = (7, 7)
 wide_figsize = (7, 3.5)
 big_wide_figsize = (12, 6)
 hcolor = [1., 0., 1.] # highlighting color
-
-notation_map={'variance': '\\alpha',
-           'lengthscale': '\\ell',
-           'period':'\omega'}
 
 def pred_range(x, portion=0.2, points=200, randomize=False):
     """Return a one dimensional range for prediction across given a data set, x"""
@@ -68,7 +59,6 @@ def matrix(A, ax=None,
            highlight_col=None,
            highlight_width=3,
            highlight_color=[0,0,0],
-           prec = '.3',
            zoom=False,
            zoom_row=None,
            zoom_col=None,
@@ -100,7 +90,7 @@ def matrix(A, ax=None,
     elif type == 'values':
         for i in range(nrows):
             for j in range(ncols):
-                handle.append(ax.text(j, i, '{val:{prec}}'.format(val=A[i, j], prec=prec), horizontalalignment='center', fontsize=fontsize))
+                handle.append(ax.text(j, i, str(A[i, j]), horizontalalignment='center', fontsize=fontsize))
     elif type == 'entries':
         for i in range(nrows):
             for j in range(ncols):
@@ -108,7 +98,7 @@ def matrix(A, ax=None,
                     handle.append(ax.text(j, i, A[i, j], horizontalalignment='center', fontsize=fontsize))
                     
                 else:  
-                    handle.append(ax.text(j, i, ' ', horizontalalignment='center', fontsize=fontsize))
+                    handle.append(ax.text(j+1, i+1, ' ', horizontalalignment='center', fontsize=fontsize))
     elif type == 'patch':
         for i in range(nrows):
             for j in range(ncols):
@@ -132,12 +122,12 @@ def matrix(A, ax=None,
         ax.set_xlim(x_lim)
         y_lim = np.array([-0.5, nrows-0.5])
         ax.set_ylim(y_lim)
-#        for i in range(nrows+1):
-#            ax.add_line(plt.axhline(y=i-.5, #xmin=-0.5, xmax=ncols-0.5, 
-#                 color=bracket_color))
-#        for j in range(ncols+1):
-#            ax.add_line(plt.axvline(x=j-.5, #ymin=-0.5, ymax=nrows-0.5, 
-#                 color=bracket_color))
+        for i in range(nrows+1):
+            ax.add_line(plt.axhline(y=i-.5, #xmin=-0.5, xmax=ncols-0.5, 
+                 color=bracket_color))
+        for j in range(ncols+1):
+            ax.add_line(plt.axvline(x=j-.5, #ymin=-0.5, ymax=nrows-0.5, 
+                 color=bracket_color))
     elif bracket_style == 'square':
         tick_length = 0.25
         ax.plot([x_lim[0]+tick_length,
@@ -293,7 +283,7 @@ def prob_diagram(fontsize=20, diagrams='../diagrams'):
     ax.text(2.5, 4-indent, '$n_{X=3, Y=4}$', horizontalalignment='center', fontsize=fontsize)
 
 
-    plt.text(1.5, 0.5, '$N$ crosses total', horizontalalignment='center', fontsize=fontsize)
+    plt.text(1.5, 0.5, '$N$ crosses total', horizontalalignment='center', fontsize=fontsize);
 
     plt.text(3, -2*axis_indent, '$X$', fontsize=fontsize)
     plt.text(-2*axis_indent, 2, '$Y$', fontsize=fontsize)
@@ -302,82 +292,7 @@ def prob_diagram(fontsize=20, diagrams='../diagrams'):
     mlai.write_figure(os.path.join(diagrams, 'prob_diagram.svg'), transparent=True)
 
 
-def bernoulli_urn(ax, diagrams='../diagrams'):
-    """Plot the urn of Jacob Bernoulli's analogy for the Bernoulli distribution."""
 
-    black_prob = 0.3
-    ball_radius = 0.1
-
-    ax.plot([0, 0, 1, 1], [1, 0, 0, 1], linewidth=3, color=[0,0,0])
-    ax.set_axis_off()
-    ax.set_aspect('equal')
-    ax.set_xlim([0, 1])
-    ax.set_ylim([0, 1])
-    t = np.linspace(0, 2*np.pi, 24)
-    rows = 4
-    cols = round(1/ball_radius)
-    last_row_cols = 3
-    for row in range(rows):
-        if row == rows-1:
-          cols = last_row_cols
-
-        for col in range(cols):
-            ball_x = col*2*ball_radius + ball_radius
-            ball_y = row*2*ball_radius + ball_radius
-            x = ball_x*np.ones(t.shape) + ball_radius*np.sin(t)
-            y = ball_y*np.ones(t.shape) + ball_radius*np.cos(t)
-
-            if np.random.rand()<black_prob:
-                ball_color = [0, 0, 0]
-            else: 
-                ball_color = [1, 0, 0]
-            plt.sca(ax)
-            circle = plt.Circle((ball_x, ball_y), ball_radius, fill=True, color=ball_color)
-            ax.add_artist(circle)
-
-    mlai.write_figure(os.path.join(diagrams, 'bernoulli-urn.svg'), transparent=True)
-
-def bayes_billiard(ax, diagrams='../diagrams'):
-    """Plot a series of figures representing Thomas Bayes' billiard table for the Bernoulli distribution representation."""
-    
-    black_prob = 0.3
-    ball_radius = 0.1
-
-    ax.plot([0, 0, 1, 1], [1, 0, 0, 1], linewidth=3, color=[0,0,0])
-    ax.set_axis_off()
-    ax.set_aspect('equal')
-    ax.set_xlim([0, 1])
-    ax.set_ylim([0, 1])
-    mlai.write_figure(os.path.join(diagrams, 'bayes-billiard000.svg'), transparent=True)
-
-    ball_x = np.random.uniform(size=1)[0]
-    ball_y = 0.5
-    black_color = [0, 0, 0]
-    red_color = [1, 0, 0]
-    #r = 0.1
-    #t = np.linspace(0, 2*np.pi, 24)
-
-    #x = ball_x*np.ones(t.shape) + ball_radius*np.sin(t)
-    #y = ball_y*np.ones(t.shape) + ball_radius*np.cos(t)
-
-    circle = plt.Circle((ball_x, ball_y), ball_radius, fill=True, color=black_color)
-    ax.add_artist(circle)
-
-    mlai.write_figure(os.path.join(diagrams, 'bayes-billiard001.svg'), transparent=True)
-
-    ax.plot([ball_x, ball_x], [0, 1], linestyle=':', linewidth=3, color=black_color)
-
-    mlai.write_figure(os.path.join(diagrams, 'bayes-billiard002.svg'), transparent=True)
-    counter = 2
-    for ball_x in np.random.uniform(size=7):
-        counter += 1
-        circle = plt.Circle((ball_x, ball_y), ball_radius, fill=True, color=red_color)
-        ax.add_artist(circle)
-        mlai.write_figure(os.path.join(diagrams, 'bayes-billiard{counter:0>3}.svg'.format(counter=counter)), transparent=True)
-        circle.remove()
-        
-
-            
 def hyperplane_coordinates(w, b, plot_limits):
     """Helper function for plotting the decision boundary of the perceptron."""
 
@@ -576,24 +491,24 @@ def over_determined_system(diagrams='../diagrams'):
     x = np.array([1, 3])
     y = np.array([3, 1])
 
-    xvals = np.linspace(0, 5, 2)
+    xvals = np.linspace(0, 5, 2);
 
-    m = (y[1]-y[0])/(x[1]-x[0])
-    c = y[0]-m*x[0]
+    m = (y[1]-y[0])/(x[1]-x[0]);
+    c = y[0]-m*x[0];
 
-    yvals = m*xvals+c
-    xvals = np.linspace(0, 5, 2)
+    yvals = m*xvals+c;
+    xvals = np.linspace(0, 5, 2);
 
-    m = (y[1]-y[0])/(x[1]-x[0])
-    c = y[0]-m*x[0]
+    m = (y[1]-y[0])/(x[1]-x[0]);
+    c = y[0]-m*x[0];
 
-    yvals = m*xvals+c
+    yvals = m*xvals+c;
 
     ylim = np.array([0, 5])
     xlim = np.array([0, 5])
 
     f, ax = plt.subplots(1,1,figsize=one_figsize)
-    a = ax.plot(xvals, yvals, '-', linewidth=3)
+    a = ax.plot(xvals, yvals, '-', linewidth=3);
 
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
@@ -604,10 +519,10 @@ def over_determined_system(diagrams='../diagrams'):
     mlai.write_figure(os.path.join(diagrams, 'over_determined_system001.svg'), transparent=True)
     ctext = ax.text(0.15, c+0.15, '$c$',  horizontalalignment='center', verticalalignment='bottom', fontsize=20)
     xl = np.array([1.5, 2.5])
-    yl = xl*m + c
+    yl = xl*m + c;
     mhand = ax.plot([xl[0], xl[1]], [yl.min(), yl.min()], color=[0, 0, 0])
     mhand2 = ax.plot([xl.min(), xl.min()], [yl[0], yl[1]], color=[0, 0, 0])
-    mtext = ax.text(xl.mean(), yl.min()-0.2, '$m$',  horizontalalignment='center', verticalalignment='bottom',fontsize=20)
+    mtext = ax.text(xl.mean(), yl.min()-0.2, '$m$',  horizontalalignment='center', verticalalignment='bottom',fontsize=20);
     mlai.write_figure(os.path.join(diagrams, 'over_determined_system002.svg'), transparent=True)
 
     a2 = ax.plot(x, y, '.', markersize=20, linewidth=3, color=[1, 0, 0])
@@ -620,9 +535,9 @@ def over_determined_system(diagrams='../diagrams'):
     mlai.write_figure(os.path.join(diagrams, 'over_determined_system004.svg'), transparent=True)
 
 
-    m = (y[1]-ys)/(x[1]-xs)
-    c = ys-m*xs
-    yvals = m*xvals+c
+    m = (y[1]-ys)/(x[1]-xs);
+    c = ys-m*xs;
+    yvals = m*xvals+c;
 
     for i in a:
         i.set_visible(False)
@@ -643,7 +558,7 @@ def over_determined_system(diagrams='../diagrams'):
 
     for i in a3:
         i.set_visible(False)
-    a4 = ax.plot(xvals, yvals, '-', linewidth=2, color=[0, 0, 1])
+    a4 = ax.plot(xvals, yvals, '-', linewidth=2, color=[0, 0, 1]);
     for i in ast:
         i.set_color([1, 0, 0])
     mlai.write_figure(os.path.join(diagrams, 'over_determined_system006.svg'), transparent=True)
@@ -668,10 +583,8 @@ def gaussian_of_height(diagrams='../diagrams'):
     ax2.set_xlabel('$h/m$', fontsize=20)
     ax2.set_ylabel('$p(h|\mu, \sigma^2)$', fontsize = 20)
     mlai.write_figure(figure=f2, filename=os.path.join(diagrams, 'gaussian_of_height.svg'), transparent=True)
-    
-#################### Session 5 ####################
 
-def marathon_fit(model, value, param_name, param_range,
+def marathon_fit_s4(model, value, param_name, param_range,
                  xlim, fig, ax, x_val=None, y_val=None, objective=None,
                  directory='./diagrams', fontsize=20, objective_ylim=None,
                  prefix='olympic', title=None, png_plot=False, samps=130):
@@ -702,85 +615,99 @@ def marathon_fit(model, value, param_name, param_range,
 
     xlim = ax.get_xlim()
     
-#    
-#    ax[0].cla()
-#    ax[0].plot(model.X, model.y, 'o', color=[1, 0, 0], markersize=6, linewidth=3)
-#    if x_val is not None and y_val is not None:
-#        ax[0].plot(x_val, y_val, 'o', color=[0, 1, 0], markersize=6, linewidth=3)
-#        
-#    ylim = ax[0].get_ylim()
-#
-#    x_pred = np.linspace(xlim[0], xlim[1], samps)[:, np.newaxis]
-#    y_pred, y_var = model.predict(x_pred)
-#    
-#    ax[0].plot(x_pred, y_pred, color=[0, 0, 1], linewidth=2)
-#    if y_var is not None:
-#        y_err = np.sqrt(y_var)*2
-#        ax[0].plot(x_pred, y_pred + y_err, '--', color=[0, 0, 1], linewidth=1)
-#        ax[0].plot(x_pred, y_pred - y_err, '--', color=[0, 0, 1], linewidth=1)
-#        
-#    ax[0].set_xlabel('year', fontsize=fontsize)
-#    ax[0].set_ylim(ylim)
-#    plt.sca(ax[0])
-#
-#    xlim = ax[0].get_xlim()
-#
-#    if objective is not None:
-#        ax[1].cla()
-#        params = range(*param_range)
-#        for name, vals in objective.items():
-#            ax[1].plot(np.array(params), vals, 'o',
-#                       color=[1, 0, 0], markersize=6, linewidth=3)
-#        if len(param_range)>2:
-#            xlow = param_range[0]-param_range[2]
-#            xhigh = param_range[1]
-#        else:
-#            xlow = param_range[0]-1
-#            xhigh = param_range[1]
-#        ax[1].set_xlim((xlow, xhigh))
-#        ax[1].set_ylim(objective_ylim)
-#        ax[1].set_xlabel(param_name.replace('_', ' '), fontsize=fontsize)
-#        if title is not None:
-#            ax[1].set_title(title, fontsize=fontsize)
-
     filename = '{prefix}_{name}_{param_name}{value:0>3}'.format(prefix=prefix, name=model.name, param_name=param_name, value=value)
     mlai.write_figure(os.path.join(directory, filename + '.svg'), transparent=True)
     if png_plot:
         mlai.write_figure(os.path.join(directory, filename + '.png'), transparent=True)
+    
+#################### Session 5 ####################
 
-def rmse_fit(x, y, param_name, param_range,
-             model=mlai.LM, #plot_objectives={'RMSE':mlai.MapModel.rmse},
-             objective_ylim=None, xlim=None,
-             plot_fit=marathon_fit, diagrams='../diagrams', **kwargs):
-    """Fit a model and show RMSE error"""
+def marathon_fit(model, value, param_name, param_range,
+                 xlim, fig, ax, x_val=None, y_val=None, objective=None,
+                 diagrams='./diagrams', fontsize=20, objective_ylim=None,
+                 prefix='olympic', title=None, png_plot=False, samps=130):
+    """Plot fit of the olympic marathon data alongside error."""
+    if title is None:
+        title = model.objective_name
+        
+    ax[0].cla()
+    ax[0].plot(model.X, model.y, 'o', color=[1, 0, 0], markersize=6, linewidth=3)
+    if x_val is not None and y_val is not None:
+        ax[0].plot(x_val, y_val, 'o', color=[0, 1, 0], markersize=6, linewidth=3)
+        
+    ylim = ax[0].get_ylim()
+
+    x_pred = np.linspace(xlim[0], xlim[1], samps)[:, np.newaxis]
+    y_pred, y_var = model.predict(x_pred)
+    
+    ax[0].plot(x_pred, y_pred, color=[0, 0, 1], linewidth=2)
+    if y_var is not None:
+        y_err = np.sqrt(y_var)*2
+        ax[0].plot(x_pred, y_pred + y_err, '--', color=[0, 0, 1], linewidth=1)
+        ax[0].plot(x_pred, y_pred - y_err, '--', color=[0, 0, 1], linewidth=1)
+        
+    #ax[0].set_xlabel('year', fontsize=fontsize)
+    ax[0].set_ylim(ylim)
+    plt.sca(ax[0])
+
+    xlim = ax[0].get_xlim()
+
+    if objective is not None:
+        ax[1].cla()
+#        params = range(*param_range)
+#        for name, vals in objective.items():
+        ax[1].plot(value, objective, 'o',
+                   color=[1, 0, 0], markersize=6, linewidth=3)
+        if len(param_range)>2:
+            xlow = param_range[0]-param_range[2]
+            xhigh = param_range[1]
+        else:
+            xlow = param_range[0]-1
+            xhigh = param_range[1]
+        ax[1].set_xlim((xlow, xhigh))
+        ax[1].set_ylim(objective_ylim)
+        ax[1].set_xlabel(param_name.replace('_', ' '), fontsize=fontsize)
+        if title is not None:
+            ax[1].set_title(title, fontsize=fontsize)
+
+    filename = '{prefix}_{name}_{param_name}{value:0>3}'.format(prefix=prefix, name=model.name, param_name=param_name, value=value)
+    mlai.write_figure(os.path.join(diagrams, filename + '.svg'), transparent=True)
+    if png_plot:
+        mlai.write_figure(os.path.join(directory, filename + '.png'), transparent=True)
+
+
+
+def rmse_fit(x, y, param_name, param_range, model=mlai.LM, 
+             #plot_objectives={'RMSE':mlai.MapModel.rmse}, 
+             objective_ylim=None, xlim=None, plot_fit=marathon_fit, diagrams='./diagrams', **kwargs):
+    "Fit a model and show RMSE error"
     f, ax = plt.subplots(1, 2, figsize=two_figsize)
     num_data = x.shape[0]
     
     params = range(*param_range)
-
+    ss = np.array([np.nan]*len(params))
     count = 0
-    obj = {}
     for param in params:
+        kwargs[param_name] = param
         m = model(x, y, **kwargs)
-        m.set_param(param_name, param)
         m.fit()
+        ss[count] = m.objective()
         # compute appropriate objective. 
         #for name, plot_objective in plot_objectives.items():
-        obj=m.rmse()#[name][count] = plot_objective(m)
-            
-        plot_fit(model=m, value=param, xlim=xlim,
-                 param_name=param_name, param_range=param_range,
-                 objective=obj, objective_ylim=objective_ylim,
+        #    obj[name][count] = plot_objective(m)
+        plot_fit(model=m, value=param, xlim=xlim, param_name=param_name, param_range=param_range,
+                 objective=ss[count], objective_ylim=objective_ylim,
                  fig=f, ax=ax, diagrams=diagrams)
         count += 1
 
 
 def holdout_fit(x, y, param_name, param_range, model=mlai.LM, val_start=20,
                 objective_ylim=None, xlim=None, plot_fit=marathon_fit,
-                permute=True, prefix='olympic_val', diagrams='../diagrams', **kwargs):
+                permute=True, prefix='olympic_val', diagrams='./diagrams', **kwargs):
     "Fit a model and show holdout error."
 
     f, ax = plt.subplots(1, 2, figsize=two_figsize)
+
     num_data = x.shape[0]
 
     if permute:
@@ -802,15 +729,14 @@ def holdout_fit(x, y, param_name, param_range, model=mlai.LM, val_start=20,
     ss_val = np.array([np.nan]*len(params))
     count = 0
     for param in params:    
+        kwargs[param_name] = param
         m = model(x_tr, y_tr, **kwargs)
-        m.set_param(param_name, param)
         m.fit()
         f_val, _ = m.predict(x_val)
         ss[count] = m.objective()
         ss_val[count] = ((y_val-f_val)**2).mean() 
         ll[count] = m.log_likelihood()
-        plot_fit(model=m, value=param, xlim=xlim,
-                 param_name=param_name, param_range=param_range,
+        plot_fit(model=m, value=param, xlim=xlim, param_name=param_name, param_range=param_range,
                  objective=np.sqrt(ss_val[count]), objective_ylim=objective_ylim,
                  fig=f, ax=ax, prefix=prefix,
                  title="Hold Out Validation",
@@ -818,7 +744,7 @@ def holdout_fit(x, y, param_name, param_range, model=mlai.LM, val_start=20,
         count+=1
 
 def loo_fit(x, y, param_name, param_range, model=mlai.LM, objective_ylim=None, 
-            xlim=None, plot_fit=marathon_fit, prefix='olympic_loo', diagrams='../diagrams', **kwargs):
+            xlim=None, plot_fit=marathon_fit, prefix='olympic_loo', diagrams='./diagrams', **kwargs):
     "Fit a model and show leave one out error"
     f, ax = plt.subplots(1, 2, figsize=two_figsize)
 
@@ -838,6 +764,7 @@ def loo_fit(x, y, param_name, param_range, model=mlai.LM, objective_ylim=None,
         ss_val = np.array([np.nan]*len(params))
         count = 0
         for param in params:
+            kwargs[param_name] = param
             ss_temp = 0.
             ll_temp = 0.
             ss_val_temp = 0.
@@ -848,30 +775,35 @@ def loo_fit(x, y, param_name, param_range, model=mlai.LM, objective_ylim=None,
                 y_val = y[val_ind, :]
                 num_val_data = x_val.shape[0]
                 m = model(x_tr, y_tr, **kwargs)
-                m.set_param(param_name, param)
                 m.fit()
                 ss_temp = m.objective()
                 ll_temp = m.log_likelihood()
                 f_val, _ = m.predict(x_val)
+                ss_val_local = ((y_val-f_val)**2).mean()
                 ss_val_temp += ((y_val-f_val)**2).mean() 
+#                plot_fit(model=m, value=param, xlim=xlim, param_name=param_name, param_range=param_range,
+#                         objective=np.sqrt(ss_val[count]), objective_ylim=objective_ylim,
+#                         fig=f, ax=ax, prefix='olympic_loo{part:0>3}'.format(part=part),
+#                         x_val=x_val, y_val=y_val, diagrams=diagrams)
+                #ax[1].cla()
                 plot_fit(model=m, value=param, xlim=xlim, param_name=param_name, param_range=param_range,
-                         objective=np.sqrt(ss_val[count]), objective_ylim=objective_ylim,
+                         objective=ss_val_local, objective_ylim=objective_ylim,
                          fig=f, ax=ax, prefix='olympic_loo{part:0>3}'.format(part=part),
                          x_val=x_val, y_val=y_val, diagrams=diagrams)
             ss[count] = ss_temp/(num_parts)
             ll[count] = ll_temp/(num_parts)
             ss_val[count] = ss_val_temp/(num_parts)
-            #ax[1].cla()
-            plot_fit(model=m, value=param, xlim=xlim, param_name=param_name, param_range=param_range,
-                     objective=np.sqrt(ss_val[count]), objective_ylim=objective_ylim,
-                     fig=f, ax=ax, prefix='olympic_loo{part:0>3}'.format(part=len(partitions)),
-                     title="Leave One Out Validation",
-                     x_val=x_val, y_val=y_val, diagrams=diagrams)
+#            ax[1].cla()
+#            plot_fit(model=m, value=param, xlim=xlim, param_name=param_name, param_range=param_range,
+#                     objective=np.sqrt(ss_val[count]), objective_ylim=objective_ylim,
+#                     fig=f, ax=ax, prefix='olympic_loo{part:0>3}'.format(part=len(partitions)),
+#                     title="Leave One Out Validation",
+#                     x_val=x_val, y_val=y_val, diagrams=diagrams)
             count+=1
 
 
 def cv_fit(x, y, param_name, param_range, model=mlai.LM, objective_ylim=None, 
-               xlim=None, plot_fit=marathon_fit, num_parts=5, diagrams='../diagrams', **kwargs):
+               xlim=None, plot_fit=marathon_fit, num_parts=5, diagrams='./diagrams', **kwargs):
     f, ax = plt.subplots(1, 2, figsize=two_figsize)
     num_data = x.shape[0]
     partitions = []
@@ -886,37 +818,50 @@ def cv_fit(x, y, param_name, param_range, model=mlai.LM, objective_ylim=None,
         start = end
 
     params = range(*param_range)
+    ll = np.array([np.nan]*len(params))
+    ss = np.array([np.nan]*len(params))
+    ss_val = np.array([np.nan]*len(params))
+    count = 0
     for param in params:
         ss_val_temp = 0.
         ll_temp = 0.
         ss_temp = 0.
+        kwargs[param_name] = param
         for part, (train_ind, val_ind) in enumerate(partitions):
             x_tr = x[train_ind, :]
             x_val = x[val_ind, :]
             y_tr = y[train_ind, :]
             y_val = y[val_ind, :]
             num_val_data = x_val.shape[0]
+
             m = model(x_tr, y_tr, **kwargs)
-            m.set_param(param_name, param)
             m.fit()
             ss_temp += m.objective()
             ll_temp += m.log_likelihood()
             f_val, _ = m.predict(x_val)
+            ss_val_local = ((y_val-f_val)**2).mean()
             ss_val_temp += ((y_val-f_val)**2).mean() 
             plot_fit(model=m, value=param, xlim=xlim, param_name=param_name, param_range=param_range,
-                     objective=np.nan, objective_ylim=objective_ylim,
+                     objective=ss_val_local, objective_ylim=objective_ylim,
                      fig=f, ax=ax, prefix='olympic_{num_parts}cv{part:0>2}'.format(num_parts=num_parts, part=part),
                      title='{num_parts}-fold Cross Validation'.format(num_parts=num_parts),
                      x_val=x_val, y_val=y_val, diagrams=diagrams)
-        ss_val = ss_val_temp/(num_parts)
-        ss = ss_temp/(num_parts)
-        ll = ll_temp/(num_parts)
-        plot_fit(model=m, value=param, xlim=xlim, param_name=param_name, param_range=param_range,
-                 objective=np.sqrt(ss_val), objective_ylim=objective_ylim,
-                 fig=f, ax=ax,
-                 prefix='olympic_{num_parts}cv{num_partitions:0>2}'.format(num_parts=num_parts, num_partitions=num_parts),
-                 title='{num_parts}-fold Cross Validation'.format(num_parts=num_parts),
-                 x_val=x_val, y_val=y_val, diagrams=diagrams)
+#            plot_fit(model=m, value=param, xlim=xlim, param_name=param_name, param_range=param_range,
+#                     objective=np.sqrt(ss_val), objective_ylim=objective_ylim,
+#                     fig=f, ax=ax, prefix='olympic_{num_parts}cv{part:0>2}'.format(num_parts=num_parts, part=part),
+#                     title='{num_parts}-fold Cross Validation'.format(num_parts=num_parts),
+#                     x_val=x_val, y_val=y_val, diagrams=diagrams)
+        ss_val[count] = ss_val_temp/(num_parts)
+        ss[count] = ss_temp/(num_parts)
+        ll[count] = ll_temp/(num_parts)
+        count+=1
+#        ax[1].cla()
+#        plot_fit(model=m, value=param, xlim=xlim, param_name=param_name, param_range=param_range,
+#                 objective=np.sqrt(ss_val), objective_ylim=objective_ylim,
+#                 fig=f, ax=ax,
+#                 prefix='olympic_{num_parts}cv{num_partitions:0>2}'.format(num_parts=num_parts, num_partitions=num_parts),
+#                 title='{num_parts}-fold Cross Validation'.format(num_parts=num_parts),
+#                 x_val=x_val, y_val=y_val, diagrams=diagrams)
             
 #################### Session 6 ####################    
 
@@ -969,7 +914,7 @@ def bayes_update(diagrams='../diagrams'):
         ln_likelihood_curve[i] = noise.log_likelihood(f[i][np.newaxis, :], 
                                                       np.array([[np.finfo(float).eps]]), 
                                                       y)
-    ln_marginal_likelihood = noise.log_likelihood(prior_mean, prior_var, y)
+    ln_marginal_likelihood = noise.log_likelihood(prior_mean, prior_var, y);
 
     prior_curve = np.exp(ln_prior_curve) 
     likelihood_curve = np.exp(ln_likelihood_curve)
@@ -1160,7 +1105,6 @@ def correlated_height_weight(h=None, w=None, muh=1.7, varh=0.0225,
 
 #################### Session 11 ####################
 
-
 def two_point_pred(K, f, x, ax=None, ind=[0, 1],
                    conditional_linestyle = '-',
                    conditional_linecolor = [1., 0., 0.],
@@ -1205,231 +1149,24 @@ def two_point_pred(K, f, x, ax=None, ind=[0, 1],
         mlai.write_figure(os.path.join(diagrams, '{stub}{start:0>3}.svg').format(stub=stub, start=start+3), transparent=True)
     
 
-def output_augment_x(x, num_outputs):
-    """Compute an autmented input matrix with associated output indices."""
-    num_data = x.shape[0]
-    x = np.tile(x, (num_outputs, 1))
-    index = np.asarray([])
-    for i in range(num_outputs):
-        index=np.append(index, np.ones(n)*i)
-    index = index[:, np.newaxis]
-    return np.hstack((index, x))
+def kern_circular_sample(K, mu=None, filename=None, fig=None, num_samps=5, num_theta=200, diagrams='../diagrams'):
 
-def basis(function, x_min, x_max, fig, ax, loc, text, diagrams='./diagrams', fontsize=20, num_basis=3, num_plots=3):
-    """Plot examples of the basis vectors."""
-    x = np.linspace(x_min, x_max, 100)[:, None]
-
-    basis = mlai.basis(function, num_basis)
-    Phi = basis.Phi(x)
-    diag=1/basis.number*(Phi*Phi).sum(1)
-
-    colors = []
-    colors.append([1, 0, 0])
-    colors.append([1, 0, 1])
-    colors.append([0, 0, 1])
-    colors.append([0, 1, 0])
-    colors.append([0, 1, 1])
-    colors.append([1, 0, 1])
-
-    # Set ylim according to max standard deviation of basis
-    ylim = 2*np.asarray([-1, 1])*np.sqrt(diag.max())    
-    plt.sca(ax)
-    ax.set_xlim((x_min, x_max))    
-    ax.set_ylim(ylim)
-
-    ax.set_xlabel('$x$', fontsize=fontsize)
-    ax.set_ylabel('$\phi(x)$', fontsize=fontsize)
-    for i in range(basis.number):
-        ax.plot(x, Phi[:, i], '-', color=colors[i], linewidth=3)
-        ax.text(loc[i][0], loc[i][1], text[i], horizontalalignment='center', fontsize=fontsize, color=colors[i])
-        mlai.write_figure(os.path.join(diagrams, basis.function.__name__ + '_basis{num:0>3}.svg'.format(num=i)), transparent=True)
-
-    # Set ylim according to max standard deviation of basis
-    plt.sca(ax)
-    ax.cla()
-    ylim = 3*np.asarray([-1, 1])*np.sqrt(diag.max())
-    ax.set_xlabel('$x$', fontsize=fontsize) 
-    ax.set_ylabel('$f(x)$', fontsize=fontsize)
-
-    ax.set_xlim((x_min, x_max))
-    ax.set_ylim(ylim)
-
-    f = np.dot(Phi, np.zeros((basis.number, 1)))
-    a, = ax.plot(x, f, color=[0, 0, 0], linewidth=3)
-
-    for i in range(basis.number):
-        ax.plot(x.flatten(), Phi[:, i], color=colors[i], linewidth=1) 
-
-    t = []
-    for i in range(basis.number):
-        t.append(ax.text(loc[i][0], loc[i][1], '$w_' + str(i) + ' = 0$',
-                         horizontalalignment='center', fontsize=fontsize,
-                         verticalalignment='center', color=colors[i]))
-
-    for j in range(num_plots):
-        # Sample a function
-        w = np.random.normal(size=(basis.number, 1))/basis.number
-        f = np.dot(Phi,w)
-        a.set_ydata(f)
-        for i in range(basis.number):
-            t[i].set_text('$w_{ind} = {w:3.3}$'.format(ind=i, w=w[i,0]))
-
-        mlai.write_figure(os.path.join(diagrams, basis.function.__name__ + '_function{plot_num:0>3}.svg'.format(plot_num=j)), transparent=True)
-
-def computing_covariance(kernel, 
-                         x, 
-                         formula,
-                         stub,
-                         prec='1.2',
-                         diagrams='../slides/diagrams/kern'):
-    counter=0
-    fig, ax = plt.subplots(1, 2, figsize=one_figsize)
-    if len(x)>3:
-        nsf=2
-    base_text = ''
-    data_text = ''
-    for i, val in enumerate(x.flatten()):
-        data_text += '$x_{i}={val:{prec}}$'.format(i=i, val=val,prec=prec)
-        if i<len(x.flatten())-2:
-            data_text += ', '
-        elif i<len(x.flatten())-1:
-            data_text += ' and '
-    param_text = ''
-    for i, param in enumerate(kernel.parameters):
-        if param in notation_map:
-            param_text += '$' + notation_map[param] 
-        else:
-            param_text += '$\text{' + param + '}' 
-        param_text += '={param:{prec}}$'.format(param=kernel.parameters[param],prec=prec)
-        if i<len(kernel.parameters)-2:
-            param_text += ', '
-        elif i<len(kernel.parameters)-1:
-            param_text += ' and '
-            
-    base_text += data_text
-    if len(kernel.parameters)>0:
-        base_text += ' with ' + param_text
-    ax[0].set_position([0.0, 0.0, 1.0, 1.0])
-    ax[0].set(ylim=[0.0, 1.0])
-    ax[0].set(xlim=[0.0, 1.0])
-    clear_axes(ax[0])
-    
-    ax[0].text(0.5, 0.9, formula, ha='center', fontsize=20)
-    ax[0].text(0.5, 0.2, base_text, ha='center', fontsize=12)
-    ax[1].set_position([0.5, 0.3, 0.5, 0.5])
-    clear_axes(ax[1])
-    K = kernel.K(x)
-    KplotFull = np.array(K, dtype='str')
-    Kplot = KplotFull.copy()
-    for i in range(K.shape[0]):
-        for j in range(K.shape[1]):
-            KplotFull[i, j] = '{value:{prec}}'.format(value=K[i, j], prec=prec)
-            Kplot[i, j] = ''
-    base_file_name = 'computing_{stub}_covariance'.format(stub=stub)
-    a = ax[0].text(0.25, 0.6, '', ha='center', fontsize=16)
-    for j in range(K.shape[0]):
-        for i in range(j+1):
-            text = '$x_{i}={val_i:{prec}}$, $x_{j}={val_j:{prec}}$'.format(i=i, j=j, val_i=x[i,0], val_j=x[j, 0], prec=prec)
-            a.set_text(text)
-            #a.append(ax[0].text(0.25, 0.4, 
-            #                    ['$\kernelScalar_{' num2str(i) ', ' num2str(j) '} = ' numsf2str(variance, nsf) ' \times \exp \left(-\frac{(' numsf2str(t(i), nsf) '-' numsf2str(t(j), nsf) ')^2}{2\times ' numsf2str(lengthScale, nsf) '^2}\right)$'], 'horizontalalignment', 'center')])
-            file_name = base_file_name+'{counter:0>3}.svg'.format(counter=counter)
-            mlai.write_figure(os.path.join(diagrams, file_name), 
-                              transparent=True)
-            counter += 1
-            Kplot[i, j] = KplotFull[i, j]
-
-            matrix(Kplot, 
-                   ax=ax[1], 
-                   bracket_style='square', 
-                   type='entries',
-                   highlight=True,
-                   highlight_row = [i, i],
-                   highlight_col = [j, j],
-                   highlight_color=[1, 0, 1])
-            
-            file_name = base_file_name+'{counter:0>3}.svg'.format(counter=counter)
-            mlai.write_figure(os.path.join(diagrams, file_name), 
-                              transparent=True)
-            counter +=1
-
-            if i != j:
-                Kplot[j, i] = KplotFull[j, i]
-
-                matrix(Kplot, 
-                       ax=ax[1], 
-                       bracket_style='square', 
-                       type='entries',
-                       highlight=True,
-                       highlight_row = [j, j],
-                       highlight_col = [i, i],
-                       highlight_color=[1, 0, 1])
-                file_name = base_file_name+'{counter:0>3}.svg'.format(counter=counter)
-                mlai.write_figure(os.path.join(diagrams, file_name), 
-                                  transparent=True)
-                counter += 1
-
-    matrix(Kplot, 
-           ax=ax[1], 
-           bracket_style='square', 
-           type='entries')
-
-    file_name = base_file_name+'{counter:0>3}.svg'.format(counter=counter)
-    mlai.write_figure(os.path.join(diagrams, file_name), 
-                      transparent=True)
-    counter += 1
-
-    matrix(K, 
-           ax=ax[1], 
-           bracket_style='square',
-           type='image')
-    file_name = base_file_name+'{counter:0>3}.svg'.format(counter=counter)
-    mlai.write_figure(os.path.join(diagrams, file_name), 
-                      transparent=True)
-    counter += 1
-            
-def kern_circular_sample(K, mu=None, x=None,
-                         filename=None, fig=None, num_samps=5,
-                         num_theta=48, multiple=True,
-                         diagrams='../diagrams', **kwargs):
     """Make an animation of a circular sample from a covariance function."""
 
-    if x is None:
-        if multiple:
-            n=K.shape[0]/num_samps
-        x = np.linspace(-1, 1, n)[:, np.newaxis]
-        
-        if multiple:
-            x = output_augment_x(x, num_samps)
+    n = K.shape[0]
 
-    else:
-        n=x.shape[0]
 
-    
-    if multiple:
-        R1 = np.random.normal(size=(n*num_samps,1))
-        R2 = np.random.normal(size=(n*num_samps,1))
-    else:
-        R1 = np.random.normal(size=(n, num_samps))
-        R2 = np.random.normal(size=(n, num_samps))
-        
+    R1 = np.random.normal(size=(n, num_samps))
     U1 = np.dot(R1,np.diag(1/np.sqrt(np.sum(R1*R1, axis=0))))
+    R2 = np.random.normal(size=(n, num_samps))
     R2 = R2 - np.dot(U1,np.diag(np.sum(R2*U1, axis=0)))
     R2 = np.dot(R2,np.diag(np.sqrt(np.sum(R1*R1, axis=0))/np.sqrt(np.sum(R2*R2, axis=0))))
-    L = np.linalg.cholesky(K+np.diag(np.ones((K.shape[0])))*1e-6)
+    L = np.linalg.cholesky(K+np.diag(np.ones((n)))*1e-6)
 
-    LR1 = np.dot(L,R1)
-    LR2 = np.dot(L,R2)
-    
 
     from matplotlib import animation
-    if multiple:
-        x_lim = (x[:, 1].min(), x[:, 1].max())
-    else:
-        x_lim = (x.min(), x.max())
-    
-    y_lim = np.sqrt(2)*np.array([np.array([LR1.min(), LR2.min()]).min(),
-                        np.array([LR1.max(), LR2.max()]).max()])
+    x_lim = (0, 1)
+    y_lim = (-2, 2)
     
     if fig is None:
         fig, _ = plt.subplots(figsize=one_figsize)
@@ -1456,146 +1193,57 @@ def kern_circular_sample(K, mu=None, x=None,
         yc = np.sin(theta)
         # generate 2d basis in t-d space
         coord = xc*R1 + yc*R2
-        y = xc*LR1 + yc*LR2
+        y = np.dot(L,coord)
         if mu is not None:
             y = y + mu
-        if multiple:
-            end = 0
-        for j in range(num_samps):
-            if multiple:
-                start = end
-                end += n
-                line[j].set_data(x[start:end, 1], y[start:end, 0])
-            else:
-                line[j].set_data(x, y[:, j])
+        x = np.linspace(0, 1, n)
+        for i in range(num_samps):
+            line[i].set_data(x, y[:, i])
         return line
 
     # call the animator.  blit=True means only re-draw the parts that have changed.
-    return animation.FuncAnimation(fig, animate, init_func=init,
+    anim = animation.FuncAnimation(fig, animate, init_func=init,
                                    frames=num_theta, blit=True)
+    if filename is not None:
+        anim.save(os.path.join(diagrams, filename), writer='imagemagick', fps=30)
 
-def animate_covariance_function(kernel_function,
-                                x=None, num_samps=5,
-                                multiple=False):
-    """Create an animation of a prior covariance function."""
 
-    fig, ax = plt.subplots(figsize=one_figsize)
-
-    if x is None:
-        n=200
-        x = np.linspace(-1, 1, n)[:, np.newaxis]
-    
-    if multiple:
-        x = output_augment_x(x, num_samps)
-    
-    K = kernel_function(x, x)
-    return K, kern_circular_sample(K, x=x,
-                                   fig=fig, num_samps=num_samps,
-                                   multiple=multiple)
-    
-def covariance_func(kernel, x=None,
+def covariance_func(x, kernel_function, x_cov=None, formula=None,
                     shortname=None, longname=None, comment=None,
-                    num_samps=5, diagrams='../diagrams', multiple=False):
+                    diagrams='../diagrams', **args):
     """Write a slide on a given covariance matrix."""
-
-    if x is None:
-        x = np.linspace(-1, 1, 200)[:, np.newaxis]
-    K, anim=animate_covariance_function(kernel.K, x, num_samps,
-                                        multiple)
-
-    if kernel.shortname is not None:
-        filename = kernel.shortname + '_covariance'
-    else:
-        filename = 'covariance'
-    anim.save(os.path.join(diagrams, filename + '.gif'),
-              writer='imagemagick', fps=30)
-    #HTML(anim.to_jshtml())##display(display_animation(anim, default_mode='loop'))
-    #HTML(anim.to_html5_video())##display(display_animation(anim, default_mode='loop'))
-
-
-    K2 = kernel.K(x[::10, :])
     fig, ax = plt.subplots(figsize=one_figsize)
     hcolor = [1., 0., 1.]
-    obj = matrix(K2, ax=ax, type='image',
-                 bracket_style='boxes', colormap='gray')
+    if x_cov is None:
+        x_cov = x
+    K = kernel_function(x_cov, x_cov, **args)
+    obj = matrix(K, ax=ax, type='image', bracket_style='boxes')
 
+    if shortname is not None:
+        filename = shortname + '_covariance'
+    else:
+        filename = 'covariance'
     mlai.write_figure(os.path.join(diagrams, filename + '.svg'), transparent=True)
 
-    if kernel.name is not None:
-        out = '<h2>' + kernel.name + ' Covariance</h2>'
-        out += '\n\n'
-    else:
-        out = ''
-    if kernel.formula is not None:
-        out += '<p><center>' + kernel.formula + '</center></p>'
+    ax.cla()
+    kern_circular_sample(K, fig=fig, filename=filename + '.gif', diagrams=diagrams)
+
+    out = '<h2>' + longname + ' Covariance</h2>'
+    out += '\n\n'
+    out += '<p><center>' + formula + '</center></p>'
     out += '<table>\n  <tr><td><img src="' + os.path.join(diagrams, filename) + '.svg"></td><td><img src="' + os.path.join(diagrams, filename) + '.gif"></td></tr>\n</table>'
     if comment is not None:
         out += '<p><center>' + comment + '</center></p>'
     fhand = open(os.path.join(diagrams, filename + '.html'), 'w')
     fhand.write(out)
 
-def rejection_samples(kernel_function, x=None, num_few=20, num_many=2000,  diagrams='../diagrams', **kwargs):
-    """Plot samples from a GP, a small sample of data and a rejection sample."""
 
-    fig, ax = plt.subplots(nrows=1, ncols=1, figsize=big_wide_figsize)
-    if x is None:
-        x = np.linspace(-1, 1, 250)[:, np.newaxis]
-    resolution = x.shape[0]
-    K = kernel_function(x, x, **kwargs)
-    f = np.random.multivariate_normal(np.zeros(resolution), K, size=num_few).T
-    #ax.set_xticks(range(1, 26, 2))
-    #ax.set_yticks([-1, 0, 1])
-    ylim = [-4, 4]
-    xlim = [x.min(), x.max()]
-    ax.set_ylim(ylim)
-    ax.set_xlim(xlim)
-    ax.set_position([0., 0., 1., 1.])
-    ax.set_axis_off()
-    h_f = ax.plot(x, f)
-    mlai.write_figure(os.path.join(diagrams, 'gp_rejection_sample001.svg'), transparent=True)
-
-    fnew = np.random.multivariate_normal(np.zeros(resolution), K, size=num_many-num_few).T
-    f = np.hstack((f, fnew))
-    h_f += ax.plot(x, fnew)
-    mlai.write_figure(os.path.join(diagrams, 'gp_rejection_sample002.svg'), transparent=True)
-
-    ind = [int(resolution/5.), int(2*resolution/3.), int(4*resolution/5.)]
-    K_data = K[ind][:, ind]
-    x_data = x[ind, :]
-    y_data = np.random.multivariate_normal(np.zeros(len(ind)), K_data, size=1).T
-    
-    h_data=ax.plot(x_data, y_data, 'o', markersize=25, linewidth=3, color=[0., 0., 0.])
-    mlai.write_figure(os.path.join(diagrams, 'gp_rejection_sample003.svg'), transparent=True)
-    delta = y_data - f[ind, :]
-    dist = (delta*delta).sum(0)
-    del_ind = np.argsort(dist)[10:]
-    for i in del_ind:
-        h_f[i].remove()
-    mlai.write_figure(os.path.join(diagrams, 'gp_rejection_sample004.svg'), transparent=True)
-
-    # This is not the numerically stable way to do this!
-    Kinv = np.linalg.inv(K_data)
-    Kinvy = np.dot(Kinv, y_data)
-    K_star = kernel_function(x_data, x, **kwargs)
-    A = np.dot(Kinv, K_star)
-    mu_f = np.dot(A.T, y_data)
-    c_f = np.diag(K - np.dot(A.T, K_star))[:, np.newaxis]
-    _ = gp_tutorial.gpplot(x,
-                           mu_f,
-                           mu_f-2*np.sqrt(c_f),
-                           mu_f+2*np.sqrt(c_f), 
-                           ax=ax)
-    mlai.write_figure(os.path.join(diagrams, 'gp_rejection_sample005.svg'), transparent=True)
-    
-    
-def two_point_sample(kernel_function, diagrams='../diagrams'):
+def two_point_sample(kernel_function, diagrams='../diagrams', **args):
     """Make plots for the two data point sample example for explaining gaussian processes."""
-
-    ind = [0, 1]    
-    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=two_figsize)
+    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(two_figsize))
     x = np.linspace(-1, 1, 25)[:, np.newaxis]
-    K = kernel_function(x, x)
-    obj = matrix(K, ax=ax[1], type='image', colormap='gray')
+    K = kernel_function(x, x, **args)
+    obj = matrix(K, ax=ax[1], type='image')
     ax[1].set_xlabel('$i$',fontsize=16)
     ax[1].set_ylabel('$i^\prime$',fontsize=16)
     #fig.colorbar(mappable=obj, ax=ax[1])
@@ -1605,8 +1253,8 @@ def two_point_sample(kernel_function, diagrams='../diagrams'):
     f = np.random.multivariate_normal(np.zeros(25), K, size=1)
     ax[0].plot(range(1, 26), f.flatten(), 'o', markersize=5, linewidth=3, color=[1., 0., 0.])
     ax[0].set_xticks(range(1, 26, 2))
-    ax[0].set_yticks([-1, 0, 1])
-    ylim = [-1.5, 1.5]
+    ax[0].set_yticks([-2, -1, 0, 1, 2])
+    ylim = [-2, 2]
     xlim = [0, 26]
     ax[0].set_ylim(ylim)
     ax[0].set_xlim(xlim)
@@ -1614,15 +1262,15 @@ def two_point_sample(kernel_function, diagrams='../diagrams'):
     ax[0].set_ylabel('$f$', fontsize=20)
     mlai.write_figure(os.path.join(diagrams, 'two_point_sample001.svg'), transparent=True)
 
-    ax[0].plot(np.array(ind)+1, [f[0,ind[0]], f[0,ind[1]]], 'o', markersize=10, linewidth=5, color=hcolor)
+    ax[0].plot(np.array([1, 2]), [f[0,0], f[0,1]], 'o', markersize=10, linewidth=5, color=hcolor)
     mlai.write_figure(os.path.join(diagrams, 'two_point_sample002.svg'), transparent=True)
+    #plt.Circle?
 
     obj = matrix(K, ax=ax[1], type='image', 
-                 highlight=True, 
-                 highlight_row=[0, 1], 
-                 highlight_col=[0,1], 
-                 highlight_color=hcolor,
-                 colormap='gray')
+                      highlight=True, 
+                      highlight_row=[0, 1], 
+                      highlight_col=[0,1], 
+                      highlight_color=hcolor)
     ax[1].set_xlabel('$i$',fontsize=16)
     ax[1].set_ylabel('$i^\prime$',fontsize=16)
     mlai.write_figure(os.path.join(diagrams, 'two_point_sample003.svg'), transparent=True)
@@ -1635,8 +1283,7 @@ def two_point_sample(kernel_function, diagrams='../diagrams'):
                  highlight_width=5,
                  zoom=True,
                  zoom_row=[0, 9],
-                 zoom_col=[0, 9],
-                 colormap='gray')
+                 zoom_col=[0, 9])
     ax[1].set_xlabel('$i$',fontsize=16)
     ax[1].set_ylabel('$i^\prime$',fontsize=16)
     mlai.write_figure(os.path.join(diagrams, 'two_point_sample004.svg'), transparent=True)
@@ -1649,8 +1296,7 @@ def two_point_sample(kernel_function, diagrams='../diagrams'):
                  highlight_width=6,
                  zoom=True,
                  zoom_row=[0, 4],
-                 zoom_col=[0, 4],
-                 colormap='gray')
+                 zoom_col=[0, 4])
     ax[1].set_xlabel('$i$',fontsize=16)
     ax[1].set_ylabel('$i^\prime$',fontsize=16)
     mlai.write_figure(os.path.join(diagrams, 'two_point_sample005.svg'), transparent=True)
@@ -1663,8 +1309,7 @@ def two_point_sample(kernel_function, diagrams='../diagrams'):
                  highlight_width=7,
                  zoom=True,
                  zoom_row=[0, 2],
-                 zoom_col=[0, 2],
-                 colormap='gray')
+                 zoom_col=[0, 2])
     ax[1].set_xlabel('$i$',fontsize=16)
     ax[1].set_ylabel('$i^\prime$',fontsize=16)
     mlai.write_figure(os.path.join(diagrams, 'two_point_sample006.svg'), transparent=True)
@@ -1677,40 +1322,27 @@ def two_point_sample(kernel_function, diagrams='../diagrams'):
                  highlight_width=8,
                  zoom=True,
                  zoom_row=[0, 1],
-                 zoom_col=[0, 1],
-                 colormap='gray')
+                 zoom_col=[0, 1])
     ax[1].set_xlabel('$i$',fontsize=16)
     ax[1].set_ylabel('$i^\prime$',fontsize=16)
     mlai.write_figure(os.path.join(diagrams, 'two_point_sample007.svg'), transparent=True)
 
-    obj = matrix(K[ind][:, ind], ax=ax[1], type='values')
+    obj = matrix(K[:2, :2], ax=ax[1], type='values')
     ax[1].set_xlabel('$i$',fontsize=16)
     ax[1].set_ylabel('$i^\prime$',fontsize=16)
     mlai.write_figure(os.path.join(diagrams, 'two_point_sample008.svg'), transparent=True)
 
     ax[0].cla()
-    two_point_pred(K, f.T, x, ax=ax[0],ind=ind, stub='two_point_sample', start=9, diagrams=diagrams)
+    two_point_pred(K, f.T, x, ax=ax[0],ind=[0, 1], stub='two_point_sample', start=9, diagrams=diagrams)
 
-    ind = [0, 7]
-    ax[0].cla()
-    ax[0].set_aspect('auto')
-    ax[0].plot(range(1, 26), f.flatten(), 'o', markersize=5, linewidth=3, color=[1., 0., 0.])
-    ax[0].set_xticks(range(1, 26, 2))
-    ax[0].set_yticks([-1, 0, 1])
-    ax[0].set_ylim(ylim)
-    ax[0].set_xlim(xlim)
-    ax[0].set_xlabel('$i$', fontsize=20)
-    ax[0].set_ylabel('$f$', fontsize=20)
-    
-    ax[0].plot(np.array(ind)+1, [f[0,ind[0]], f[0,ind[1]]], 'o', markersize=10, linewidth=5, color=hcolor)
-    ax[0]
-    obj = matrix(K[ind][:, ind], ax=ax[1], type='values')
+    ind = [0, 4]
+    obj = matrix(K[ind, ind], ax=ax[1], type='values')
     ax[1].set_xlabel('$i$',fontsize=16)
     ax[1].set_ylabel('$i^\prime$',fontsize=16)
-    mlai.write_figure(os.path.join(diagrams, 'two_point_sample013.svg'), transparent=True)
+    mlai.write_figure(os.path.join(diagrams, 'two_point_sample008.svg'), transparent=True)
 
     ax[0].cla()
-    two_point_pred(K, f.T, x, ax=ax[0],ind=ind, stub='two_point_sample', start=14, diagrams=diagrams)
+    two_point_pred(K, f.T, x, ax=ax[0],ind=ind, stub='two_point_sample', start=13, diagrams=diagrams)
 
 
 def poisson(diagrams='../diagrams'):
@@ -1754,8 +1386,8 @@ def height(ax, h, ph):
 
     ylim = ax.get_ylim()
     xlim = ax.get_xlim()
-    #ax.vlines(xlim[0], ylim[0], ylim[1], color='k')
-    #ax.hlines(ylim[0], xlim[0], xlim[1], color='k')
+    ax.vlines(xlim[0], ylim[0], ylim[1], color='k')
+    ax.hlines(ylim[0], xlim[0], xlim[1], color='k')
 
 def weight(ax, w, pw):
     """Plot weight as a distribution."""
@@ -1767,8 +1399,8 @@ def weight(ax, w, pw):
 
     ylim = ax.get_ylim()
     xlim = ax.get_xlim()
-    #ax.vlines(xlim[0], ylim[0], ylim[1], color='k')
-    #ax.hlines(ylim[0], xlim[0], xlim[1], color='k')
+    ax.vlines(xlim[0], ylim[0], ylim[1], color='k')
+    ax.hlines(ylim[0], xlim[0], xlim[1], color='k')
 
 def low_rank_approximation(fontsize=25, diagrams='../diagrams'):
     """Illustrate the low rank approximation used in sparse GPs."""
@@ -1883,13 +1515,12 @@ def kronecker_illustrate(fontsize=25, figsize=two_figsize, diagrams='../diagrams
     objAkB = matrix(AkroneckerB, ax=ax[3], bracket_style='square', type='entries',
                   fontsize=fontsize)
         
-    mlai.write_figure(os.path.join(diagrams, 'kronecker_illustrate.svg'), transparent=True)
+    mlai.write_figure(os.path.join(diagrams, 'kronecker_product.svg'), transparent=True)
 
 def kronecker_IK(fontsize=25, figsize=two_figsize, reverse=False, diagrams='../diagrams'):
     """Illustrate a Kronecker product"""
     fig, ax = plt.subplots(1, 4, figsize=figsize)
     my_rgb = [[1., 1., 1.],[1., 0., 0.],[ 0., 1., 0.],[ 0., 0., 1.]]
-
     from matplotlib.colors import ListedColormap
     colormap = ListedColormap(my_rgb, name='primary+black')
     dim_I = 3
@@ -2106,8 +1737,8 @@ def clear_axes(ax):
     """Clear the axes lines and ticks"""
     ax.tick_params(axis='both',          
                    which='both', 
-                   bottom=False, top=False, labelbottom=False,
-                   right=False, left=False, labelleft=False) 
+                   bottom='off', top='off', labelbottom='off',
+                   right='off', left='off', labelleft='off') 
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     ax.spines["bottom"].set_visible(False)
@@ -2140,7 +1771,7 @@ def non_linear_difficulty_plot_3(alpha=1.0,
     W = np.random.randn(num_samples, num_basis_func)*np.sqrt(alpha)
     F = np.dot(Phi,W.T)
 
-    fig, ax = plt.subplots(1, 3, figsize=two_figsize)
+    fig, ax = plt.subplots(1, 3, figsize=(10, 5))
     fig.delaxes(ax[2])
     ax[2] = fig.add_subplot(133, projection='3d')
 
@@ -2161,8 +1792,8 @@ def non_linear_difficulty_plot_3(alpha=1.0,
           start_val = end_val
 
     ax[0].tick_params(axis='both',          
-        which='both', bottom=False, top=False, labelbottom=False,
-                      right=False, left=False, labelleft=False) 
+        which='both', bottom='off', top='off', labelbottom='off',
+                      right='off', left='off', labelleft='off') 
     ax[0].set(aspect='equal')
     clear_axes(ax[0])
     ax[0].set_xlabel('$x_1$', ha='center', fontsize=fontsize)
@@ -2227,7 +1858,7 @@ def non_linear_difficulty_plot_2(alpha=1.0,
                                  fontsize=30,
                                  diagrams='../diagrams'):
     """Plot a one dimensional line mapped through a two dimensional mapping."""
-    fig, ax = plt.subplots(1, 3, figsize=two_figsize)
+    fig, ax = plt.subplots(1, 3, figsize=(10, 5))
     for item in ax:
         item.patch.set_visible(False)
 
@@ -2240,7 +1871,7 @@ def non_linear_difficulty_plot_2(alpha=1.0,
     
     F = np.dot(Phi,W.T)
 
-    a = ax[0].plot(x, np.ones(x.shape), 'r-')
+    a = ax[0].plot(x, np.ones(x.shape), 'r-');
     subx = x[0::10,:]
     b = ax[0].plot(subx, np.ones(subx.shape), 'b.')
     ax[0].set(ylim=[0.5, 1.5])
@@ -2294,9 +1925,9 @@ def non_linear_difficulty_plot_1(alpha=1.0,
     mu = np.linspace(-4, 4, num_basis_func)[np.newaxis, :]
     Phi = np.exp(-dist2(xsamp, mu.T)/(2*rbf_width*rbf_width))
     W = np.random.randn(1, num_basis_func)*np.sqrt(alpha)
-    f = np.dot(Phi,W.T)
+    f = np.dot(Phi,W.T);
 
-    fig, ax = plt.subplots(1, 3, figsize=three_figsize)
+    fig, ax = plt.subplots(1, 3, figsize=(10, 3))
     p = np.exp(-0.5/alpha*x**2)*1/np.sqrt(2*np.pi*alpha)
     patch = Polygon(np.column_stack((x, p)), closed=True, facecolor=patch_color)
     a = ax[0].add_patch(patch)
@@ -2597,7 +2228,6 @@ def horizontal_chain(depth=5,
                      node_unit=1.9,
                      line_width=3,
                     target="y"):
-    """Plot a horizontal Markov chain."""
     if shape is None:
         shape = [2*node_unit+depth, node_unit]
     
@@ -2625,7 +2255,6 @@ def horizontal_chain(depth=5,
     return pgm
 
 def shared_gplvm():
-    """Plot graphical model of a Shared GP-LVM"""
     pgm = daft.PGM(shape=[4, 3],
                    origin=[0, 0], 
                    grid_unit=5, 
@@ -2645,107 +2274,3 @@ def shared_gplvm():
     pgm.add_edge("Z_1", "Y_1")
     pgm.add_edge("Z_2", "Y_2")
     return pgm
-
-def three_pillars_innovation(diagrams='./diagrams'):
-    """Plot graphical model of three pillars of successful innovation"""
-    pgm = daft.PGM(shape=[4, 2.5],
-                   origin=[0, 0], 
-                   grid_unit=5, 
-                   node_unit=4.2, 
-                   observed_style='shaded',
-                   line_width=6)
-    import matplotlib
-    orig_font_size = matplotlib.rcParams['font.size']
-    orig_font_weight = matplotlib.rcParams['font.weight']
-    matplotlib.rc('font', size=32)
-    matplotlib.rc('font', weight='bold')
-    aspect=2
-    pgm.add_node(daft.Node("innovate", "innovate", 2, 1.75, aspect=aspect))
-    ax=pgm.render()
-    mlai.write_figure(os.path.join(diagrams, 'three-pillars-innovation001.svg'),
-                  figure=ax.figure,
-                  transparent=True)
-    pgm.add_node(daft.Node("resolve", "resolve", 3, 0.75, aspect=aspect))
-    pgm.add_edge("resolve", "innovate", directed=False)
-    ax=pgm.render()
-    mlai.write_figure(os.path.join(diagrams, 'three-pillars-innovation002.svg'),
-                  figure=ax.figure,
-                  transparent=True)
-    pgm.add_node(daft.Node("deploy", "deploy", 1, 0.75, aspect=aspect))
-    pgm.add_edge("innovate", "deploy", directed=False)
-    pgm.add_edge("deploy", "resolve", directed=False)
-    ax=pgm.render()
-    mlai.write_figure(os.path.join(diagrams, 'three-pillars-innovation003.svg'),
-                  figure=ax.figure,
-                  transparent=True)
-    matplotlib.rc('font', size=orig_font_size)
-    matplotlib.rc('font', weight=orig_font_weight)
-
-
-def model_output(model, output_dim=0, scale=1.0, offset=0.0, ax=None, xlabel='$x$', ylabel='$y$', fontsize=20, portion=0.2):
-    """Plot the output of a GP."""
-    if ax is None:
-        fig, ax = plt.subplots(figsize=big_figsize)
-    ax.plot(model.X.flatten(), model.Y[:, output_dim]*scale + offset, 'r.',markersize=10)
-    ax.set_xlabel(xlabel, fontsize=fontsize)
-    ax.set_ylabel(ylabel, fontsize=fontsize)
-    xt = pred_range(model.X, portion=portion)
-    yt_mean, yt_var = model.predict(xt)
-    yt_mean = yt_mean*scale + offset
-    yt_var *= scale*scale
-    yt_sd=np.sqrt(yt_var)
-    if yt_sd.shape[1]>1:
-        yt_sd = yt_sd[:, output_dim]
-
-    _ = gp_tutorial.gpplot(xt.flatten(),
-               yt_mean[:, output_dim],
-               yt_mean[:, output_dim]-2*yt_sd.flatten(),
-               yt_mean[:, output_dim]+2*yt_sd.flatten(), 
-               ax=ax)
-
-def model_sample(model, output_dim=0, scale=1.0, offset=0.0,
-                 samps=10, ax=None, xlabel='$x$', ylabel='$y$', 
-                 fontsize=20, portion=0.2,
-                 xlim=None, ylim=None):
-    """Plot model output with samples."""
-    
-    if ax is None:
-        fig, ax = plt.subplots(figsize=big_figsize)
-    ax.set_xlabel(xlabel, fontsize=fontsize)
-    ax.set_ylabel(ylabel, fontsize=fontsize)
-    
-    xt = pred_range(model.X, portion=portion)
-    yt_mean, yt_var = model.predict(xt)
-    yt_mean = yt_mean*scale + offset
-    yt_var *= scale*scale
-    yt_sd=np.sqrt(yt_var)
-    if yt_sd.shape[1]>1:
-        yt_sd = yt_sd[:, output_dim]
-        
-    _ = gp_tutorial.gpplot(xt.flatten(),
-               yt_mean[:, output_dim],
-               yt_mean[:, output_dim]-2*yt_sd.flatten(),
-               yt_mean[:, output_dim]+2*yt_sd.flatten(), 
-               ax=ax)
-    for i in range(samps):
-        xt = pred_range(model.X, portion=portion, randomize=True)
-        a = model.posterior_sample(xt)
-        ax.plot(xt.flatten(), a[:, output_dim]*scale+offset, 'b.',markersize=3, alpha=0.2)
-    ax.plot(model.X.flatten(), model.Y[:, output_dim]*scale+offset, 'r.',markersize=10)
-
-    if xlim is not None:
-        ax.set_xlim(xlim)
-    else:
-        ax.set_xlim([xt.min(), xt.max()])
-    if ylim is not None: 
-        ax.set_ylim(ylim)
-               
-    if hasattr(model, 'Z'):
-        ylim = ax.get_ylim()
-        ax.plot(m.Z, np.ones(m.Z.shape)*ax.get_ylim()[0], marker='^', linestyle=None, markersize=20)
-
-def save_animation(anim, diagrams, filename):
-    """Save an animation to file."""
-    f = open(os.path.join(diagrams, filename), 'w')
-    f.write(anim.to_jshtml())
-    f.close()
