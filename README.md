@@ -5,10 +5,10 @@
 * Session 3: Linear regression
 * Session 4: Basis functions
 * Session 5: Generalisation
-* Session 6: Bayesian regression
-* Session 7: Unsupervised learning
-* Session 8: Naive Bayes
-* Session 9: Logistic regression
+* Session 6: Bayesian regression & DL intro
+* Session 7: Unsupervised learning & DL intro
+* Session 8: Naive Bayes & DL intro
+* Session 9: Logistic regression & DL intro
 * Session 10: Other topics
 
 ## Module delivery plan
