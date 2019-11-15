@@ -7,7 +7,7 @@
 * Session 5: Generalisation
 * Session 6: Bayesian regression & DL intro
 * Session 7: Unsupervised learning & DL intro
-* Session 8: Naive Bayes & DL intro
+* Session 8: Naive Bayes & **review**
 * Session 9: Logistic regression & DL intro
 * Session 10: Other topics
 
