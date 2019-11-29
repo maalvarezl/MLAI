@@ -9,7 +9,7 @@
 * Session 7: Unsupervised learning & DL intro
 * Session 8: Naive Bayes & **review**
 * Session 9: Logistic regression & DL intro
-* Session 10: Other topics
+* Session 10: Invited Lecture by [Neil Lawrence](https://inverseprobability.com/) & More DL lab
 
 ## Module delivery plan
 
