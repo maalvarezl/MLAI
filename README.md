@@ -1,19 +1,19 @@
 # COM4509/6509 Machine Learning and Adaptive Intelligence - University of Sheffield
-## Autumn 2019 by Mauricio A Álvarez (1-5) and Haiping Lu (6-10)
-* Session 1: Introduction to Machine Learning and Review of Probability
-* Session 2: Objective functions
+## Autumn 2020 by Mauricio A Álvarez (1-5) and Haiping Lu (6-10)
+* Session 1: Introduction to Machine Learning 
+* Session 2: End-to-end machine learning
 * Session 3: Linear regression
-* Session 4: Basis functions
-* Session 5: Generalisation
-* Session 6: Bayesian regression & DL intro
-* Session 7: Unsupervised learning & DL intro
-* Session 8: Naive Bayes & **review**
-* Session 9: Logistic regression & DL intro
-* Session 10: Guest Lecture by [Neil Lawrence](https://inverseprobability.com/) & More DL lab
+* Session 4: Decision trees and ensemble methods
+* Session 5: Automatic differentiation 
+* Session 6: Logistic regression
+* Session 7: Neural networks
+* Session 8: Unsupervised learning 
+* Session 9: Deep generative models
+* Session 10: Other topics
 
 ## Module delivery plan
 
-Details about the module delivery plan can be found in this [file](ModuleDeliveryPlan.pdf).
+Details about the module delivery plan will be updated. 
 
 ## Jupyter Notebooks
 
@@ -28,15 +28,24 @@ If you want to see the notebook as a slide show use the following instruction on
 
 ## References
 
-Simon Rogers and Mark Girolami, A First Course in Machine Learning, Chapman and Hall/CRC Press, 2nd Edition, 2016.
+#### Introductory level
 
-Christopher Bishop, Pattern Recognition and Machine Learning, Springer-Verlag, 2006.
+* Simon Rogers and Mark Girolami, A First Course in Machine Learning, Chapman and Hall/CRC Press, 2nd Edition, 2016.
 
-Kevin Murphy, Machine Learning: A Probabilistic Perspective, MIT Press, 2012.
+#### Intermediate and advanced levels
 
-Aurélien Géron, Hands-On Machine Learning with Scikit-Learn and TensorFlow, O′Reilly, 2017 (a new version to appear in Oct, 2019).
+* Christopher Bishop, Pattern Recognition and Machine Learning, Springer-Verlag, 2006.
+
+* Kevin Murphy, Machine Learning: A Probabilistic Perspective, MIT Press, 2012.
+
+#### Focus on implementation
+
+* Aurélien Géron, Hands-On Machine Learning with Scikit-Learn and TensorFlow, O′Reilly, 2nd Edition, 2019.
+
+* Andriy Burkov, The Hundred-Page Machine Learning Book, 2019.
+
 
 ## Acknowledgement
 
-Most of the slides and lab notebooks used in this module are based on [material developed by Prof. Neil Lawrence](http://inverseprobability.com/mlai2015/). 
+Some of the slides and lab notebooks used in this module are based on [material developed by Prof. Neil Lawrence](http://inverseprobability.com/mlai2015/). 
 
