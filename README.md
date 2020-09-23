@@ -32,6 +32,8 @@ If you want to see the notebook as a slide show use the following instruction on
 
 * Simon Rogers and Mark Girolami, A First Course in Machine Learning, Chapman and Hall/CRC Press, 2nd Edition, 2016.
 
+* John D Kelleher, Brian MacNamee and Aoife D'arcy, Fundamentals of Machine Learning for Predictive Data Analytics: Algorithms, Worked Examples, and Case Studies, The MIT Press, 2015. 
+
 #### Intermediate and advanced levels
 
 * Christopher Bishop, Pattern Recognition and Machine Learning, Springer-Verlag, 2006.
