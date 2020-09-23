@@ -9,7 +9,7 @@
 * Session 7: Neural networks
 * Session 8: Unsupervised learning 
 * Session 9: Deep generative models
-* Session 10: Other topics
+* Session 10: Advanced applications of machine learning
 
 ## Module delivery plan
 
