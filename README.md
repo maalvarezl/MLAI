@@ -17,7 +17,7 @@ Details about the module delivery plan for COM4509 are [here](./MDPCOM4509.pdf).
 
 ## Lab Sessions
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/maalvarezl/MLAI/master)
+Follow [this link](https://github.com/maalvarezl/MLAI-Labs) for details on the lab sessions.
 
 ## References
 
