@@ -13,13 +13,11 @@
 
 ## Module delivery plan
 
-Details about the module delivery plan will be updated. 
+Details about the module delivery plan for COM4509 are [here](./MDPCOM4509.pdf). 
 
-## Jupyter Notebooks
+## Lab Sessions
 
-To open a Jupyter Notebook, type on your terminal
-
-`jupyter notebook Lab 1 - Probability and Introduction to Jupyter Notebooks.ipynb`
+Visit the Lab folder in the repo for more details.
 
 ## References
 
