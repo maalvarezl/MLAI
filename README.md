@@ -17,7 +17,7 @@ Details about the module delivery plan for COM4509 are [here](./MDPCOM4509.pdf).
 
 ## Lab Sessions
 
-Visit the Lab folder in the repo for more details.
+Visit the [Lab folder](./Labs/) in the repo for more details.
 
 ## References
 
