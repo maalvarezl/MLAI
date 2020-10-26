@@ -13,7 +13,7 @@
 
 ## Module delivery plan
 
-Details about the module delivery plan for COM4509 are [here](./MDPCOM4509.pdf). 
+Details about the module delivery plan for COM4509 are [here](./MDPCOM4509.pdf) and for COM6509 [here](./MDPCOM6509.pdf).
 
 ## Lab Sessions
 
