@@ -8,7 +8,7 @@
 * Session 6: Logistic regression and PyTorch for deep learning
 * Session 7: Neural networks
 * Session 8: Unsupervised learning 
-* Session 9: Deep generative models
+* Session 9: Generative models
 * Session 10: Machine Learning in Medical Imaging (guest lecture by [Dr Johanna Uthoff](https://www.linkedin.com/in/johanna-uthoff/))
 
 ## Module delivery plan
