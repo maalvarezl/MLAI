@@ -13,11 +13,9 @@
 
 ## Module delivery plan
 
-Details about the module delivery plan for COM4509/6509 are [here]()
+Details about the module delivery plan for COM4509/6509 are [here](./ModuleDeliveryPlanMLAIAutumn2021.pdf)
 
 ## Lab Sessions
-
-Follow [this link](https://github.com/maalvarezl/MLAI-Labs) for details on the lab sessions.
 
 ## References
 
