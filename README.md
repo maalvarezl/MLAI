@@ -9,7 +9,7 @@
 * Session 7: Neural networks
 * Session 8: Unsupervised learning 
 * Session 9: Generative models
-* Session 10: Machine Learning in Medical Imaging (guest lecture by [Dr Johanna Uthoff](https://www.linkedin.com/in/johanna-uthoff/))
+* Session 10: Advanced applications of ML 
 
 ## Module delivery plan
 
