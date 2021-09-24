@@ -46,7 +46,8 @@ You can run the Jupyter Notebooks directly on [Google Colab](https://colab.resea
 
 |  Lab session |  Google Colab link |
 |----------------|--------------------|
-|Lab 1 - Probability and Introduction to Jupyter Notebooks |  |
+|Lab 1 - Probability and Introduction to Jupyter Notebooks |  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/maalvarezl/MLAI/blob/master/Labs/Lab%201%20-%20Probability%20and%20Introduction%20to%20Jupyter%20Notebooks.ipynb)
+|
 
 
 
