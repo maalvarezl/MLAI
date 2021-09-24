@@ -17,6 +17,41 @@ Details about the module delivery plan for COM4509/6509 are [here](./ModuleDeliv
 
 ## Lab Sessions
 
+We will use Jupyter Notebooks running a Python 3+ kernel for the Lab Sessions.
+
+You can access the environment required in different ways.
+
+### Option 1. 
+
+The Desktop computers in The Diamond already have Anaconda installed. Download the notebooks and open them using the [Anaconda Navigator](https://docs.anaconda.com/anaconda/navigator/).
+
+### Option 2.
+
+You can [install Anaconda in your local computer](https://www.anaconda.com/products/individual) and then [launch Jupyter Notebook using the Anaconda Navigator](https://docs.anaconda.com/anaconda/navigator/). The Anaconda distribution contains all the Python libraries that we will use in this module (e.g. Pandas, NumPy, SciPy, Matplotlib, Pytorch, etc).
+
+If you are a Linux or MacOS user, you can open a Jupyter Notebook by moving to the `Labs` folder and then 
+typing on your terminal
+
+`jupyter notebook Lab 1 - Probability and Introduction to Jupyter Notebooks.ipynb`
+
+
+### Option 3. 
+
+The [University of Sheffield has a remote desktop service](https://www.sheffield.ac.uk/it-services/remote/remote-desktop) that you can use. The remote desktops have Anaconda already installed. Once you connect to the remote desktop, use the [Anaconda Navigator](https://docs.anaconda.com/anaconda/navigator/) to open a Jupyter Notebook. If you connect to a Linux computer, you can open Jupyter Notebook using the terminal as explained in Option 2.
+
+### Option 4
+
+You can run the Jupyter Notebooks directly on [Google Colab](https://colab.research.google.com/notebooks/intro.ipynb?utm_source=scs-index). 
+
+
+|  Lab session |  Google Colab link |
+|----------------|--------------------|
+|Lab 1 - Probability and Introduction to Jupyter Notebooks |  |
+
+
+
+If you want to save changes to the Notebook, you need to save them before quitting. 
+
 ## References
 
 #### Introductory level
