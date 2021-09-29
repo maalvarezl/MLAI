@@ -67,6 +67,10 @@ If you want to save changes to the Notebook, you need to save them before quitti
 
 * Kevin Murphy, Machine Learning: A Probabilistic Perspective, MIT Press, 2012.
 
+* Kevin Murphy, Probabilistic Machine Learning: An Introduction, MIT Press, 2022.  
+
+* Bradley Efron and Trevor Hastie, Computer Age Statistical Inference (Student Edition), Cambridge University Press, 2021. 
+
 #### Focus on implementation
 
 * Aurélien Géron, Hands-On Machine Learning with Scikit-Learn and TensorFlow, O′Reilly, 2nd Edition, 2019.
