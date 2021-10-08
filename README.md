@@ -48,6 +48,7 @@ You can run the Jupyter Notebooks directly on [Google Colab](https://colab.resea
 |----------------|--------------------|
 |Lab 1 - Probability and Introduction to Jupyter Notebooks |  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/maalvarezl/MLAI/blob/master/Labs/Lab%201%20-%20Probability%20and%20Introduction%20to%20Jupyter%20Notebooks.ipynb)|
 |Lab 2 - End-to-end project in ML | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/maalvarezl/MLAI/blob/master/Labs/Lab%202%20-%20End-to-end%20project%20in%20ML.ipynb)|
+|Lab 3 - Decision trees and ensemble methods | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]()|
 
 
 If you want to save changes to the Notebook, you need to save them before quitting. According to [this link](https://colab.research.google.com/github/googlecolab/colabtools/blob/master/notebooks/colab-github-demo.ipynb#scrollTo=Rmai0dD30XzL):
