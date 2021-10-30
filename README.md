@@ -9,7 +9,7 @@
 * Session 7: Neural networks
 * Session 8: Unsupervised learning
 * Session 9: Generative models
-* Session 10: Accessible multimodal learning and transfer learning with PyKale
+* Session 10: Accessible multimodal/transfer learning with PyKale
 
 ## Module delivery plan
 
