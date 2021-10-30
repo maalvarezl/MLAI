@@ -7,9 +7,9 @@
 * Session 5: Automatic differentiation
 * Session 6: Logistic regression and PyTorch for deep learning
 * Session 7: Neural networks
-* Session 8: Unsupervised learning 
+* Session 8: Unsupervised learning
 * Session 9: Generative models
-* Session 10: Advanced applications of ML 
+* Session 10: Accessible multimodal learning and transfer learning with PyKale
 
 ## Module delivery plan
 
