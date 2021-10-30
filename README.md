@@ -5,11 +5,11 @@
 * Session 3: Decision trees and ensemble methods
 * Session 4: Linear regression
 * Session 5: Automatic differentiation
-* Session 6: Logistic regression and PyTorch for deep learning
-* Session 7: Neural networks
-* Session 8: Unsupervised learning
-* Session 9: Generative models
-* Session 10: Accessible multimodal/transfer learning with PyKale
+* [Session 6: Logistic regression and PyTorch for deep learning](https://www.youtube.com/watch?v=hnAoAYSzZYI&list=PLuRoUKdWifzwCTez18kp8qL6WLXZhxtm8)
+* [Session 7: Neural networks](https://www.youtube.com/watch?v=SHw_a3YGwZQ&list=PLuRoUKdWifzxmvxhjjFztwY1kbfp8Pav6)
+* [Session 8: Unsupervised learning](https://www.youtube.com/watch?v=e8FFrxbYECo&list=PLuRoUKdWifzzN88NwRtFL3Cm2VhxUD9zq)
+* [Session 9: Generative models](https://www.youtube.com/watch?v=c7qt56HH_Wg&list=PLuRoUKdWifzzFL5Am_xk-NDwewFwm1-BM)
+* [Session 10: Accessible multimodal/transfer learning with PyKale](https://www.youtube.com/watch?v=nybYgw-T2bM&list=PLuRoUKdWifzzXGInKdWG2VDeINBJ2MCYq)
 
 ## Module delivery plan
 
