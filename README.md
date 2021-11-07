@@ -52,6 +52,7 @@ You can run the Jupyter Notebooks directly on [Google Colab](https://colab.resea
 |Lab 4 - Linear regression | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/maalvarezl/MLAI/blob/master/Labs/Lab%204%20-%20Linear%20Regression.ipynb)|
 |Lab 5 - Automatic Differentiation | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/maalvarezl/MLAI/blob/master/Labs/Lab%205%20-%20Automatic%20Differentiation.ipynb)|
 |Lab 6 - Logistic regression and PyTorch for deep learning | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/maalvarezl/MLAI/blob/master/Labs/Lab%206%20-%20Logistic%20regression%20%26%20pytorch%20for%20DL.ipynb)|
+|Lab 7 - Neural Networks | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/maalvarezl/MLAI/blob/master/Labs/Lab%207%20-%20Neural%20Networks.ipynb)|
 
 If you want to save changes to the Notebook, you need to save them before quitting. According to [this link](https://colab.research.google.com/github/googlecolab/colabtools/blob/master/notebooks/colab-github-demo.ipynb#scrollTo=Rmai0dD30XzL):
 
